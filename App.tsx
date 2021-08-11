@@ -10,12 +10,14 @@ import { LoginPage } from './components/loginPage';
 // TODO: backend needed to keep track of user set pin?
 const App = () => {
   const Stack = createStackNavigator();
+  const startScreenName = 'login' // can be used to decide whether the app opens up on the login page if pin is setup or open in the content page when not
+
 
   return (
     <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={startScreenName}>
           <Stack.Screen name="login" component={LoginPage} options={{ title: 'Welcome' }}/>
-          <Stack.Screen name="content" component={ContentPage} options={{ title: 'Awesome Content' }}/>
+          <Stack.Screen name="content" component={ContentPage} options={{ title: 'Content' }}/>
         </Stack.Navigator>
     </NavigationContainer>
    );

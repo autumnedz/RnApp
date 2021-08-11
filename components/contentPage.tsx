@@ -15,12 +15,12 @@ import {
   } from 'react-native';
 
 export const ContentPage = () => {
-    const [imageUrl, setImageUrl] = useState('')
+    const [imageUrl, setImageUrl] = useState(' ')
 
     const onButtonPress= () => {
         setImageUrl('https://en.meming.world/images/en/thumb/2/2c/Surprised_Pikachu_HD.jpg/300px-Surprised_Pikachu_HD.jpg')
         setTimeout(() => {
-        setImageUrl('')
+        setImageUrl(' ')
         }, 2000);
     }
 
