@@ -1,16 +1,16 @@
 
-import { SetPinCodeAction } from '../actions/pinActions';
+import { AuthAction } from '../actions/AuthActions';
 import { Reducer } from 'redux'
 
-export interface PinState {
+export interface AuthState {
     userSetPinCode: number|null;
 }
 
-const initialState: PinState = {
+const initialState: AuthState = {
     userSetPinCode: null
 };
 
-export const pinReducer:Reducer<PinState,SetPinCodeAction> = (state = initialState, action) => {
+export const pinReducer:Reducer<AuthState,AuthAction> = (state = initialState, action) => {
     switch(action.type) {
         case 'SET_PINCODE':
             return {

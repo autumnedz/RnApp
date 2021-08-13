@@ -34,9 +34,9 @@ export const LoginPage = ({navigation}: Prop) => {
     const submitPincode = () => { 
         if (isNaN(parseInt(enterdPinCode))) return // TODO: handle nan case
         if (parseInt(enterdPinCode) === userSetPinCode){
-            setEnteredPinCode('')
             navigation.navigate(ScreenName.Content)
       }
+      setEnteredPinCode('')
     }
 
     // This prevents the user to return back to the setupAuth or splashScreen, but its not nice because the return button is still available on the screen, just doesnt react

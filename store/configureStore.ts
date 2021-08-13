@@ -1,7 +1,7 @@
 
 import { createStore, combineReducers } from 'redux';
-import { pinReducer } from './reducers/pinReducer';
-import { PinState } from './reducers/pinReducer';
+import { pinReducer } from './reducers/AuthReducer';
+import { AuthState } from './reducers/AuthReducer';
 
 // a static way of defining the RootState type
 // export interface RootState {
