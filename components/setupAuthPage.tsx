@@ -3,14 +3,12 @@ import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
 import { Overlay } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux'
-import { setPinCode } from '../store/actions/AuthActions'
-import { RootState } from '../store/configureStore';
 import ReactNativeBiometrics from 'react-native-biometrics'
 import { useEffect } from 'react';
 import { ScreenName } from '../rootModule';
+import * as Keychain from 'react-native-keychain';
 
-// TODO: setup navigation to the login page
+
 // todo: figure out biometrics!!
 
 interface Prop{
@@ -21,9 +19,6 @@ export const SetupAuthPage = ({navigation}: Prop) => {
     const [visible, setVisible] = useState(true); // changes visibility of the new pin overlay
     const [newPinCode, setNewPinCode] = useState('') // current value enterd in the textinput for the new pin
 
-    const dispatch = useDispatch()
-    const userSetPinCode = useSelector((state: RootState) => state.pin.userSetPinCode)
-
     const toggleOverlay = () => {
         setVisible(!visible);
     }
@@ -32,14 +27,16 @@ export const SetupAuthPage = ({navigation}: Prop) => {
     }
 
     //lets user set up a new pincode
-    const submitNewPinCode = () => {
+    const submitNewPinCode = async () => {
         if (isNaN(parseInt(newPinCode))) return // TODO: handle nan case
-        //setCorrectPinCode(parseInt(newPinCode))
-        dispatch(
-            setPinCode(parseInt(newPinCode))
-        )
+        // dispatch(
+        //     setPinCode(parseInt(newPinCode))
+        // )
         setNewPinCode('')
         toggleOverlay()
+
+        await Keychain.setGenericPassword('user', newPinCode);
+
         navigation.navigate(ScreenName.Login)
     }
 

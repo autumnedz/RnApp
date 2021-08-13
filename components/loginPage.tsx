@@ -2,26 +2,17 @@
 import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
-import { Overlay } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux'
 import { ScreenName } from '../rootModule';
-import { RootState } from '../store/configureStore';
+import * as Keychain from 'react-native-keychain';
 
 
 interface Prop{
-    navigation: any // this is not nice but cba 
+    navigation: any // this is not nice but cba
 }
 
 export const LoginPage = ({navigation}: Prop) => {
-    const [visible, setVisible] = useState(true); // changes visibility of the new pin overlay
     const [enterdPinCode, setEnteredPinCode] = useState('') // current value entered in the textinput for pin login
 
-    const dispatch = useDispatch()
-    const userSetPinCode = useSelector((state: RootState) => state.pin.userSetPinCode)
-
-    const toggleOverlay = () => {
-        setVisible(!visible);
-    }
 
     const onLoginTextChange = (inputValue:string) => {
         //console.log(inputValue, typeof(inputValue));
@@ -31,11 +22,17 @@ export const LoginPage = ({navigation}: Prop) => {
 
 
     // lets user enter the app if entered pin code is correct 
-    const submitPincode = () => { 
-        if (isNaN(parseInt(enterdPinCode))) return // TODO: handle nan case
-        if (parseInt(enterdPinCode) === userSetPinCode){
+    const submitPincode = async() => { 
+
+        const credentials = await Keychain.getGenericPassword(); // fetch credentials from the keychain
+
+        if (isNaN(parseInt(enterdPinCode)) || !credentials) return 
+
+        // if pincode is correct navigate to the content page
+        if (parseInt(enterdPinCode) === parseInt(credentials.password)){
             navigation.navigate(ScreenName.Content)
       }
+
       setEnteredPinCode('')
     }
 
