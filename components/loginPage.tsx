@@ -1,60 +1,56 @@
 
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
 import { Overlay } from 'react-native-elements';
-// TODO: figure out the login page, make it switch to content page on successfull login
+import { useDispatch, useSelector } from 'react-redux'
+import { ScreenName } from '../rootModule';
+import { RootState } from '../store/configureStore';
+
 
 interface Prop{
     navigation: any // this is not nice but cba 
 }
 
 export const LoginPage = ({navigation}: Prop) => {
-    const [visible, setVisible] = useState(false);
-    const [enterdPincode, setEnteredPincode] = useState('')
-    const [correctPincode, setCorrectPincode] = useState(1234)
-    const [isPinSet, setIsPinSet] = useState(false)
-    const test = useNavigation()
+    const [visible, setVisible] = useState(true); // changes visibility of the new pin overlay
+    const [enterdPinCode, setEnteredPinCode] = useState('') // current value entered in the textinput for pin login
+
+    const dispatch = useDispatch()
+    const userSetPinCode = useSelector((state: RootState) => state.pin.userSetPinCode)
 
     const toggleOverlay = () => {
         setVisible(!visible);
     }
 
-    const onButtonPress =() => {
-        toggleOverlay()
+    const onLoginTextChange = (inputValue:string) => {
+        //console.log(inputValue, typeof(inputValue));
+        setEnteredPinCode(inputValue)
     }
 
-    const onInputTextChange = (inputValue:string) => {
-        console.log(inputValue, typeof(inputValue));
-        setEnteredPincode(inputValue)
-    }
 
-    const submitPincode = () => {
 
-        if (isNaN(parseInt(enterdPincode))) return // TODO: handle nan case
-        if (parseInt(enterdPincode) === correctPincode){
-            setEnteredPincode('')
-            navigation.navigate('content')
+    // lets user enter the app if entered pin code is correct 
+    const submitPincode = () => { 
+        if (isNaN(parseInt(enterdPinCode))) return // TODO: handle nan case
+        if (parseInt(enterdPinCode) === userSetPinCode){
+            setEnteredPinCode('')
+            navigation.navigate(ScreenName.Content)
       }
     }
+
+    // This prevents the user to return back to the setupAuth or splashScreen, but its not nice because the return button is still available on the screen, just doesnt react
+    navigation.addListener('beforeRemove', (e: any) => {
+        e.preventDefault(); // Prevent default behavior of leaving the screen
+    })
 
     return(
         <View style={styles.container}>
             <Text style = {styles.heading}>Welcome</Text>
-            {/* <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-                <Text>Login stuff</Text>
-                <TouchableHighlight>
-                    <View>
-
-                    </View>
-                </TouchableHighlight>
-            </Overlay> */}
-
             <View style={{flex: 3, justifyContent:'center'}}>
                 <TextInput 
-                value={enterdPincode} 
-                onChangeText={onInputTextChange} 
+                value={enterdPinCode} 
+                onChangeText={onLoginTextChange} 
                 onSubmitEditing={submitPincode} 
                 placeholder='Enter Pin' 
                 keyboardType="numeric" 
