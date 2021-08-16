@@ -8,14 +8,11 @@ import { ContentPage } from './components/contentPage';
 import { LoginPage } from './components/loginPage';
 import { SetupAuthPage } from './components/setupAuthPage';
 import { SplashScreen } from './components/splashScreen';
-import ReactNativeBiometrics from 'react-native-biometrics';
 import { useEffect, useState } from 'react';
 
 
 export const RootModule = () => {
   const Stack = createStackNavigator();
-  //const startScreenName = ScreenName.SetupAuth // can be used to decide whether the app opens up on the login page if pin is setup or open in the content page when not
- 
 
   return (
     <NavigationContainer>

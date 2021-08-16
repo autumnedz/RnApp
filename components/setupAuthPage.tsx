@@ -3,7 +3,6 @@ import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
 import { Overlay } from 'react-native-elements';
-import ReactNativeBiometrics from 'react-native-biometrics'
 import { useEffect } from 'react';
 import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
