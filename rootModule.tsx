@@ -9,18 +9,39 @@ import { LoginPage } from './components/loginPage';
 import { SetupAuthPage } from './components/setupAuthPage';
 import { SplashScreen } from './components/splashScreen';
 import { useEffect, useState } from 'react';
-
+import * as Keychain from 'react-native-keychain';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/configureStore';
 
 export const RootModule = () => {
   const Stack = createStackNavigator();
 
+  const authState = useSelector((state: RootState) => state.auth)
+  
+  if(authState.isLoading){
+    return <SplashScreen/>
+  }
+ 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName={ScreenName.SplashScreen}>
-          <Stack.Screen name={ScreenName.SplashScreen} component={SplashScreen} options={{ title: 'Loading' }}/>
-          <Stack.Screen name={ScreenName.SetupAuth} component={SetupAuthPage} options={{ title: 'Setup your authentification method' }}/>
-          <Stack.Screen name={ScreenName.Login} component={LoginPage} options={{ title: 'Welcome' }}/>
-          <Stack.Screen name={ScreenName.Content} component={ContentPage} options={{ title: 'Content' }}/>
+        <Stack.Navigator>
+          {
+            authState.userToken === null ? (
+              <>
+                {
+                  authState.isAuthSet ? (
+                    <Stack.Screen name={ScreenName.LogIn} component={LoginPage} options={{ title: 'Log In' }}/>
+                  ) : (
+                    <Stack.Screen name={ScreenName.SetupAuth} component={SetupAuthPage} options={{ title: 'Setup a pin code' }}/>
+                  )
+                }
+              </>
+            ) : (
+              <>
+                <Stack.Screen name={ScreenName.Content} component={ContentPage} options={{ title: 'Authentification Successful'}}/>
+              </>
+            )
+          }
         </Stack.Navigator>
     </NavigationContainer>
    );
@@ -29,7 +50,7 @@ export const RootModule = () => {
 export enum ScreenName {
   SplashScreen = 'splashScreen',
   SetupAuth = 'setupAuth',
-  Login = 'login',
+  LogIn = 'logIn',
   Content = 'content'
 }
 

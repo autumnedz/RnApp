@@ -1,21 +1,45 @@
 
 import React from 'react';
-import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Alert} from 'react-native';
 import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
-
+import { useDispatch } from 'react-redux';
+import { signIn } from '../store/actions/AuthActions';
 
 interface Prop{
     navigation: any // this is not nice but cba
 }
 
-export const LoginPage = ({navigation}: Prop) => {
-    const [enterdPinCode, setEnteredPinCode] = useState('') // current value entered in the textinput for pin login
 
+
+export const LoginPage = ({navigation}: Prop) => {
+    const [enteredPinCode, setEnteredPinCode] = useState('') // current value entered in the textinput for pin login
+    const dispatch = useDispatch()
+    
+    useEffect(() => {
+        loginWithBiometrics()
+    },[])
+
+    const loginWithBiometrics = async () => {
+        console.log(await Keychain.getSupportedBiometryType());
+        
+        if (await Keychain.getSupportedBiometryType() !== null){
+            try{
+                const credentials = await Keychain.getGenericPassword({service:'biometric', authenticationPrompt: {title: 'To continue please authenticate'}}); // fetch credentials from the keychain
+                if (credentials){
+                    dispatch(
+                        signIn(credentials.password)
+                    )
+                }
+            }catch(err){
+                console.log('fall back to pincode');
+                
+            }
+        }
+    }
 
     const onLoginTextChange = (inputValue:string) => {
-        //console.log(inputValue, typeof(inputValue));
         setEnteredPinCode(inputValue)
     }
 
@@ -23,30 +47,29 @@ export const LoginPage = ({navigation}: Prop) => {
 
     // lets user enter the app if entered pin code is correct 
     const submitPincode = async() => { 
+        const credentials = await Keychain.getGenericPassword({service:'pincode'}); // fetch credentials from the keychain
 
-        const credentials = await Keychain.getGenericPassword(); // fetch credentials from the keychain
-
-        if (isNaN(parseInt(enterdPinCode)) || !credentials) return 
-
-        // if pincode is correct navigate to the content page
-        if (parseInt(enterdPinCode) === parseInt(credentials.password)){
-            navigation.navigate(ScreenName.Content)
-      }
+        //if pincode is correct sign in to the content page
+        if (credentials && (enteredPinCode === credentials.password)){
+            dispatch(
+                signIn(credentials.password)
+            )
+        }
 
       setEnteredPinCode('')
     }
 
-    // This prevents the user to return back to the setupAuth or splashScreen, but its not nice because the return button is still available on the screen, just doesnt react
-    navigation.addListener('beforeRemove', (e: any) => {
-        e.preventDefault(); // Prevent default behavior of leaving the screen
-    })
+    // // This prevents the user to return back to the setupAuth or splashScreen, but its not nice because the return button is still available on the screen, just doesnt react
+    // navigation.addListener('beforeRemove', (e: any) => {
+    //     e.preventDefault(); // Prevent default behavior of leaving the screen
+    // })
 
     return(
         <View style={styles.container}>
             <Text style = {styles.heading}>Welcome</Text>
             <View style={{flex: 3, justifyContent:'center'}}>
                 <TextInput 
-                value={enterdPinCode} 
+                value={enteredPinCode} 
                 onChangeText={onLoginTextChange} 
                 onSubmitEditing={submitPincode} 
                 placeholder='Enter Pin' 
