@@ -6,12 +6,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ContentPage } from './components/contentPage';
 import { LoginPage } from './components/loginPage';
-import { SetupAuthPage } from './components/setupAuthPage';
+import { PinSetupPage } from './components/pinSetupPage';
 import { SplashScreen } from './components/splashScreen';
 import { useEffect, useState } from 'react';
 import * as Keychain from 'react-native-keychain';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/configureStore';
+import { StatusBar } from 'react-native';
+import { FingerprintSetupPage } from './components/fingerprintSetupPage';
 
 export const RootModule = () => {
   const Stack = createStackNavigator();
@@ -19,26 +21,30 @@ export const RootModule = () => {
   const authState = useSelector((state: RootState) => state.auth)
   
   if(authState.isLoading){
-    return <SplashScreen/>
+    return <SplashScreen />
   }
  
   return (
     <NavigationContainer>
-        <Stack.Navigator>
-          {
-            authState.userToken === null ? (
+        <StatusBar hidden={true} />
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          {authState.userToken === null ? (
               <>
-                {
-                  authState.isAuthSet ? (
-                    <Stack.Screen name={ScreenName.LogIn} component={LoginPage} options={{ title: 'Log In' }}/>
+                {authState.isAuthSet ? (
+                  <>
+                    <Stack.Screen name={ScreenName.LogIn} component={LoginPage}/>
+                  </>
                   ) : (
-                    <Stack.Screen name={ScreenName.SetupAuth} component={SetupAuthPage} options={{ title: 'Setup a pin code' }}/>
+                    <>
+                    <Stack.Screen name={ScreenName.PinSetup} component={PinSetupPage} />
+                    <Stack.Screen name={ScreenName.FingerprintSetup} component={FingerprintSetupPage}/>
+                    </>
                   )
                 }
               </>
             ) : (
               <>
-                <Stack.Screen name={ScreenName.Content} component={ContentPage} options={{ title: 'Authentification Successful'}}/>
+                <Stack.Screen name={ScreenName.Content} component={ContentPage}/>
               </>
             )
           }
@@ -49,8 +55,9 @@ export const RootModule = () => {
 
 export enum ScreenName {
   SplashScreen = 'splashScreen',
-  SetupAuth = 'setupAuth',
+  PinSetup = 'pinSetup',
   LogIn = 'logIn',
+  FingerprintSetup = 'fingerprintSetup',
   Content = 'content'
 }
 

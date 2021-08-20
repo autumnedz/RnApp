@@ -22,7 +22,6 @@ export const LoginPage = ({navigation}: Prop) => {
     },[])
 
     const loginWithBiometrics = async () => {
-        console.log(await Keychain.getSupportedBiometryType());
         
         if (await Keychain.getSupportedBiometryType() !== null){
             try{
@@ -54,6 +53,15 @@ export const LoginPage = ({navigation}: Prop) => {
             dispatch(
                 signIn(credentials.password)
             )
+        }else{
+            Alert.alert( 
+                'Incorrect PIN',
+                '',
+                [
+                    { text: "Try Again", onPress: () => {setEnteredPinCode('')} }
+                ]
+            )
+            return
         }
 
       setEnteredPinCode('')
@@ -76,7 +84,7 @@ export const LoginPage = ({navigation}: Prop) => {
                 keyboardType="numeric" 
                 style={styles.input} 
                 secureTextEntry={true} 
-                maxLength={4}
+                maxLength={6}
                 autoFocus = {true}
                 />
                 <View style={{marginTop: 20}}>

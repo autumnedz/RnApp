@@ -4,15 +4,15 @@ interface SingInAction {
     type: 'SIGN_IN';
     token: string;
 }
-interface SetPinCodeAction {
-    type: 'SET_PINCODE';
+interface SetAuthAction {
+    type: 'SET_AUTH';
 }
 interface CheckCredentialsAction {
     type: 'CHECK_CREDENTIALS';
     result: boolean;
 }
 
-export type AuthAction = SingInAction | CheckCredentialsAction | SetPinCodeAction
+export type AuthAction = SingInAction | CheckCredentialsAction | SetAuthAction
 
 
 export const signIn = (userToken: string) =>({
@@ -20,8 +20,8 @@ export const signIn = (userToken: string) =>({
     token: userToken
 })
 
-export const setPinCode = () =>({
-    type: 'SET_PINCODE',
+export const setAuth = () =>({
+    type: 'SET_AUTH',
 })
 
 export const checkCredentials = (foundCredentials: boolean) =>({

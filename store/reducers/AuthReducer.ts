@@ -28,7 +28,7 @@ export const authReducer: Reducer<AuthState,AuthAction> = (state = initialState,
             isLoading: false,
             isAuthSet: action.result
             };
-        case 'SET_PINCODE':
+        case 'SET_AUTH':
             return {
                 ...state,
                 isAuthSet: true

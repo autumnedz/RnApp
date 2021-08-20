@@ -20,16 +20,6 @@ export const SplashScreen = () => {
             dispatch( 
               checkCredentials(typeof credentials !== 'boolean') 
             )
-            // if (credentials) {
-            //   console.log( 'Credentials successfully loaded for user ', credentials.username, 'the password is:', credentials.password);
-              
-            //   //navigation.replace(ScreenName.LogIn)
-
-            // } else {
-            //   console.log('No credentials stored');
-
-            //   //navigation.replace(ScreenName.SetupAuth)              
-            // }
           } catch (error) {
             console.log("Keychain couldn't be accessed!", error);
           }
