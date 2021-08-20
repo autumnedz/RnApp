@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, Alert} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Alert, SafeAreaView} from 'react-native';
 import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
@@ -73,7 +73,7 @@ export const LoginPage = ({navigation}: Prop) => {
     // })
 
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style = {styles.heading}>Welcome</Text>
             <View style={{flex: 3, justifyContent:'center'}}>
                 <TextInput 
@@ -96,7 +96,7 @@ export const LoginPage = ({navigation}: Prop) => {
                 </View>
             </View>
 
-        </View>
+        </SafeAreaView>
     )
 }
 

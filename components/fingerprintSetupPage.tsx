@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, SafeAreaView} from 'react-native';
 import { Overlay } from 'react-native-elements';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,7 +49,7 @@ export const FingerprintSetupPage = ({navigation}: Prop) => {
 
 
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.heading}>Use your fingerprint</Text>
 
             <View style={{ marginTop: 20 }}>
@@ -66,7 +66,7 @@ export const FingerprintSetupPage = ({navigation}: Prop) => {
                     </View>
                 </TouchableHighlight>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

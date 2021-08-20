@@ -10,6 +10,7 @@ import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
 import { setAuth } from '../store/actions/AuthActions';
 import { Alert } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -31,8 +32,13 @@ export const PinSetupPage = ({navigation}: Prop) => {
 
 
     const hasBiometrics = async () => {
-        const result = await Keychain.getSupportedBiometryType()        
-        return (result !== null)
+        try{
+            const result = await Keychain.getSupportedBiometryType()        
+            return (result !== null)
+        }catch(e){
+            console.log(e);
+            
+        }
     }
 
     const onButtonPress = () => {
@@ -78,31 +84,38 @@ export const PinSetupPage = ({navigation}: Prop) => {
 
     //lets user set up a new pincode
     const submitNewPin = async () => {
-        
-        // keychain storage for pincode
-        await Keychain.setGenericPassword('user', newPinValue,{
-            service: 'pincode',
-            accessControl: Keychain.ACCESS_CONTROL.APPLICATION_PASSWORD,
-            accessible:  Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY
-        });
-        console.log('has biometrics? : ', await hasBiometrics());
-        
-        if (await hasBiometrics()){
-            navigation.replace(ScreenName.FingerprintSetup) //change to something else, navigation isnt nice
-        }else{
-            dispatch(
-                setAuth()
-            )
+        try{
+            // keychain storage for pincode
+            await Keychain.setGenericPassword('user', newPinValue,{
+                service: 'pincode',
+                accessControl: Keychain.ACCESS_CONTROL.APPLICATION_PASSWORD,
+                accessible:  Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY
+            });
+            console.log('has biometrics? : ', await hasBiometrics());
+            
+            if (await hasBiometrics()){
+                navigation.replace(ScreenName.FingerprintSetup) //change to something else, navigation isnt nice
+            }else{
+                dispatch(
+                    setAuth()
+                )
+            }
+            setNewPinValue('')
+        }catch(e){
+            console.log(e);
+            
         }
         
 
-        setNewPinValue('')
+        
+
+
     }
 
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <Text style={styles.heading}>Secure your app</Text>
         <Text style={styles.text}>{subtitleText}</Text>
 
@@ -124,7 +137,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
                 </View>
             </TouchableHighlight>
         </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
