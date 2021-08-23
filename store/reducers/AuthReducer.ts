@@ -33,6 +33,12 @@ export const authReducer: Reducer<AuthState,AuthAction> = (state = initialState,
                 ...state,
                 isAuthSet: true
                 };
+        case 'RESET_AUTH':
+            return {
+                ...state,
+                isAuthSet: false,
+                userToken: null
+                };
         default:
             return state;
     }

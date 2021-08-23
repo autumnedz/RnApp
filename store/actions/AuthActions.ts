@@ -7,12 +7,15 @@ interface SingInAction {
 interface SetAuthAction {
     type: 'SET_AUTH';
 }
+interface ResetAuthAction {
+    type: 'RESET_AUTH';
+}
 interface CheckCredentialsAction {
     type: 'CHECK_CREDENTIALS';
     result: boolean;
 }
 
-export type AuthAction = SingInAction | CheckCredentialsAction | SetAuthAction
+export type AuthAction = SingInAction | CheckCredentialsAction | SetAuthAction | ResetAuthAction
 
 
 export const signIn = (userToken: string) =>({
@@ -22,6 +25,10 @@ export const signIn = (userToken: string) =>({
 
 export const setAuth = () =>({
     type: 'SET_AUTH',
+})
+
+export const resetAuth = () =>({
+    type: 'RESET_AUTH',
 })
 
 export const checkCredentials = (foundCredentials: boolean) =>({

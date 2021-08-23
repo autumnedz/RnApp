@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, TouchableHighlight, TextInput, Alert, SafeAreaV
 import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
-import { signIn } from '../store/actions/AuthActions';
+import { resetAuth, signIn } from '../store/actions/AuthActions';
 
 interface Prop{
     navigation: any // this is not nice but cba
@@ -67,6 +67,12 @@ export const LoginPage = ({navigation}: Prop) => {
       setEnteredPinCode('')
     }
 
+    const onResetAuthentification = async () => {
+        await Keychain.resetGenericPassword({service:'biometric'});
+        await Keychain.resetGenericPassword({service:'pincode'});
+        dispatch(resetAuth())
+
+    }
     // // This prevents the user to return back to the setupAuth or splashScreen, but its not nice because the return button is still available on the screen, just doesnt react
     // navigation.addListener('beforeRemove', (e: any) => {
     //     e.preventDefault(); // Prevent default behavior of leaving the screen
@@ -91,6 +97,13 @@ export const LoginPage = ({navigation}: Prop) => {
                     <TouchableHighlight  onPress={submitPincode}>
                         <View style={styles.buttonStyle}>
                             <Text style={{fontSize: 20}}>Login</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                <View style={{marginTop: 20}}>
+                    <TouchableHighlight  onPress={onResetAuthentification}>
+                        <View style={styles.buttonStyle}>
+                            <Text style={{fontSize: 20}}>reset authentification</Text>
                         </View>
                     </TouchableHighlight>
                 </View>

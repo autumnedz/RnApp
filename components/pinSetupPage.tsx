@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch} from 'react-native';
 import { Overlay } from 'react-native-elements';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
@@ -88,7 +88,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
             // keychain storage for pincode
             await Keychain.setGenericPassword('user', newPinValue,{
                 service: 'pincode',
-                accessControl: Keychain.ACCESS_CONTROL.APPLICATION_PASSWORD,
+                accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
                 accessible:  Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY
             });
             console.log('has biometrics? : ', await hasBiometrics());
@@ -105,11 +105,6 @@ export const PinSetupPage = ({navigation}: Prop) => {
             console.log(e);
             
         }
-        
-
-        
-
-
     }
 
 
@@ -130,6 +125,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
         maxLength={6}
         autoFocus = {false}
         />
+
         <View style={{marginTop: 20}}>
             <TouchableHighlight  onPress={onButtonPress}>
                 <View style={styles.buttonStyle}>
