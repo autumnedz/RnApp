@@ -97,7 +97,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
             // keychain storage for pincode
             await Keychain.setGenericPassword('user', newPinValue,{
                 service: 'pincode',
-                accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
+                //accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
                 accessible:  Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY
             });
             

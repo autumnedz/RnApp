@@ -16,9 +16,10 @@ export const SplashScreen = () => {
             // Retrieve the credentials
             const credentials = await Keychain.getGenericPassword({service: 'pincode'});
             console.log('Authetification is set: ', typeof credentials !== 'boolean');
+            console.log('all services: '+ await Keychain.getAllGenericPasswordServices());
             
             dispatch( 
-              checkCredentials(typeof credentials !== 'boolean') 
+              checkCredentials(typeof credentials !== 'boolean')
             )
           } catch (error) {
             console.log("Keychain couldn't be accessed!", error);
