@@ -13,7 +13,6 @@ import * as Keychain from 'react-native-keychain';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/configureStore';
 import { StatusBar } from 'react-native';
-import { FingerprintSetupPage } from './components/fingerprintSetupPage';
 
 export const RootModule = () => {
   const Stack = createStackNavigator();
@@ -37,7 +36,6 @@ export const RootModule = () => {
                   ) : (
                     <>
                     <Stack.Screen name={ScreenName.PinSetup} component={PinSetupPage} />
-                    <Stack.Screen name={ScreenName.FingerprintSetup} component={FingerprintSetupPage}/>
                     </>
                   )
                 }

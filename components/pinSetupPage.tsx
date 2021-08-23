@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch, Button} from 'react-native';
 import { Overlay } from 'react-native-elements';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,20 +25,29 @@ export const PinSetupPage = ({navigation}: Prop) => {
     const [textInputValue, setTextInputValue] = useState('') 
     const [newPinValue, setNewPinValue] = useState('')
     const [isPinConfirmed, setIsPinConfirmed] = useState(false)
+    const [isBiometricsAvailable, setIsBiometricsAvailable] = useState(true)
+    const [isSwitchEnabled, setIsSwitchEnabled] = useState(true)
 
     const RequiredPinLength = 6
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        checkBiometrics()
+    }, [])
 
-    const hasBiometrics = async () => {
+    const checkBiometrics = async () => {
         try{
             const result = await Keychain.getSupportedBiometryType()        
-            return (result !== null)
+            setIsBiometricsAvailable(result !== null)
+            setIsSwitchEnabled(result !== null)   
         }catch(e){
             console.log(e);
-            
         }
+    }
+
+    const toggleSwitch = () => {
+        setIsSwitchEnabled(!isSwitchEnabled)        
     }
 
     const onButtonPress = () => {
@@ -91,15 +100,19 @@ export const PinSetupPage = ({navigation}: Prop) => {
                 accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
                 accessible:  Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY
             });
-            console.log('has biometrics? : ', await hasBiometrics());
             
-            if (await hasBiometrics()){
-                navigation.replace(ScreenName.FingerprintSetup) //change to something else, navigation isnt nice
-            }else{
-                dispatch(
-                    setAuth()
-                )
+            if (isSwitchEnabled){
+                await Keychain.setGenericPassword('user', newPinValue,{
+                    service: 'biometric',
+                    accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
+                    accessible:  Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY,
+                })
             }
+
+            dispatch(
+                setAuth()
+            )
+            
             setNewPinValue('')
         }catch(e){
             console.log(e);
@@ -125,6 +138,20 @@ export const PinSetupPage = ({navigation}: Prop) => {
         maxLength={6}
         autoFocus = {false}
         />
+
+        <View style={{opacity: isBiometricsAvailable? 1 : 0.3}}>
+            <Text>
+                Sign-in automatically with fingerprint or face scan (You can always change it in settings)
+            </Text>
+            <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isSwitchEnabled ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isSwitchEnabled}
+            disabled={!isBiometricsAvailable}
+            />
+        </View>
 
         <View style={{marginTop: 20}}>
             <TouchableHighlight  onPress={onButtonPress}>
