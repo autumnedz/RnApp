@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, Alert, SafeAreaView} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, SafeAreaView} from 'react-native';
 import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
@@ -92,18 +92,18 @@ export const LoginPage = ({navigation}: Prop) => {
                     autoFocus = {true}
                     />
                     <View style={{marginTop: 20}}>
-                        <TouchableHighlight  onPress={submitPincode}>
+                        <TouchableOpacity  onPress={submitPincode}>
                             <View style={styles.buttonStyle}>
                                 <Text style={styles.buttonText}>Login</Text>
                             </View>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     </View>
                     <View style={{marginTop: 20}}>
-                        <TouchableHighlight  onPress={onResetAuthentification}>
-                            <View style={styles.buttonStyle}>
-                                <Text style={styles.buttonText}>reset authentification</Text>
+                        <TouchableOpacity  onPress={onResetAuthentification}>
+                            <View style={ { alignItems: "center", justifyContent: 'center', padding: 15, }}>
+                                <Text style={{fontSize: 20, color: '#0007F9', textDecorationLine: 'underline'}}>reset authentification</Text>
                             </View>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#0007F9",
         padding: 15,
+        margin: 15
     },
     buttonText:{
         fontSize: 20,

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Switch} from 'react-native';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/configureStore';
@@ -113,6 +113,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
             )
             
             setNewPinValue('')
+            
         }catch(e){
             console.log(e);
             
@@ -130,6 +131,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
             </View>
             <View style={{flex: 1}}>
                 <TextInput 
+                autoFocus = {true}
                 value={textInputValue} 
                 onChangeText={setTextInputValue} 
                 onSubmitEditing={onButtonPress} 
@@ -138,7 +140,6 @@ export const PinSetupPage = ({navigation}: Prop) => {
                 style={styles.input} 
                 secureTextEntry={true} 
                 maxLength={6}
-                autoFocus = {false}
                 />
                 <View style={{...styles.switchWithLabel, opacity: isBiometricsAvailable? 1 : 0.3}}>
                     <Text style={{flex:4 }}>
@@ -155,11 +156,11 @@ export const PinSetupPage = ({navigation}: Prop) => {
                 </View>
             </View>
             <View style={{marginTop: 20, flex: 2, justifyContent:'flex-end'}}>
-                <TouchableHighlight  onPress={onButtonPress}>
+                <TouchableOpacity  onPress={onButtonPress}>
                     <View style={styles.buttonStyle}>
                         <Text style={styles.buttonText}>{buttonText}</Text>
                     </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     </DismissKeyboard>
@@ -190,6 +191,8 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#0007F9",
         padding: 15,
+        margin: 15,
+
     },
     buttonText:{
         fontSize: 20,

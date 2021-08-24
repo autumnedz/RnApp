@@ -1,7 +1,5 @@
 import React from 'react';
 import { useEffect } from "react";
-import { View, Text } from "react-native";
-import { ScreenName } from "../rootModule";
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
 import { checkCredentials } from '../store/actions/AuthActions';
@@ -31,9 +29,8 @@ export const SplashScreen = () => {
     }, )
 
     return(
-        <View >
-            <Text> Loading ...  </Text>
-        </View>
+        < >
+        </>
     )
 
 };

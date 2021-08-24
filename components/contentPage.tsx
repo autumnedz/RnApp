@@ -12,6 +12,7 @@ import {
     View,
     Button,
     TouchableHighlight,
+    TouchableOpacity,
   } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
@@ -35,11 +36,11 @@ export const ContentPage = () => {
                 source={{ uri: 'https://en.meming.world/images/en/thumb/2/2c/Surprised_Pikachu_HD.jpg/300px-Surprised_Pikachu_HD.jpg' }}
             />
             <View style={{ marginTop: 20 }}>
-                <TouchableHighlight onPress={onResetAuthentification}>
-                    <View style={styles.buttonStyle}>
+                <TouchableOpacity onPress={onResetAuthentification}>
+                    <View style={ { alignItems: "center", justifyContent: 'center', padding: 15, }}>
                         <Text style={styles.buttonText}>reset authentification</Text>
                     </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -65,9 +66,11 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#0007F9",
         padding: 15,
+        
     },
     buttonText:{
         fontSize: 20,
-        color: '#ffffff'
+        color: '#0007F9',
+        textDecorationLine:'underline'
     },
   });

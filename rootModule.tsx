@@ -25,7 +25,6 @@ export const RootModule = () => {
  
   return (
     <NavigationContainer>
-        <StatusBar hidden={true} />
         <Stack.Navigator screenOptions={{headerShown: false}}>
           {authState.userToken === null ? (
               <>
