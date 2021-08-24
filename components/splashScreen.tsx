@@ -11,16 +11,17 @@ export const SplashScreen = () => {
     // check if credentials are set for this user, if yes go directly to login page, if not go to setu authentification page
     const checkForCredentials = async () => {
         try {
-            // Retrieve the credentials
-            const credentials = await Keychain.getGenericPassword({service: 'pincode'});
-            console.log('Authetification is set: ', typeof credentials !== 'boolean');
-            console.log('all services: '+ await Keychain.getAllGenericPasswordServices());
+            // Retrieve the credentials (on ios causes a faceID frompt too soon)
+            // const credentials = await Keychain.getGenericPassword({service: 'pincode'});
+            // console.log('Authetification is set: ', typeof credentials !== 'boolean');
+            const keychainServices = await Keychain.getAllGenericPasswordServices()
+            console.log('Found keychain services: ', keychainServices);
             
             dispatch( 
-              checkCredentials(typeof credentials !== 'boolean')
+              checkCredentials(keychainServices.length !== 0) // if credentials exist there will be at least one active keychain service
             )
-          } catch (error) {
-            console.log("Keychain couldn't be accessed!", error);
+          } catch (err) {
+            console.log(err);
           }
     }
 
