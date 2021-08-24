@@ -97,7 +97,6 @@ export const PinSetupPage = ({navigation}: Prop) => {
             // keychain storage for pincode
             await Keychain.setGenericPassword('user', newPinValue,{
                 service: 'pincode',
-                //accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
                 accessible:  Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY
             });
             
@@ -124,39 +123,41 @@ export const PinSetupPage = ({navigation}: Prop) => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <Text style={styles.heading}>Secure your app</Text>
-        <Text style={styles.text}>{subtitleText}</Text>
-
-        <TextInput 
-        value={textInputValue} 
-        onChangeText={setTextInputValue} 
-        onSubmitEditing={onButtonPress} 
-        placeholder='Pin Code' 
-        keyboardType="numeric" 
-        style={styles.input} 
-        secureTextEntry={true} 
-        maxLength={6}
-        autoFocus = {false}
-        />
-
-        <View style={{opacity: isBiometricsAvailable? 1 : 0.3}}>
-            <Text>
-                Sign-in automatically with fingerprint or face scan (You can always change it in settings)
-            </Text>
-            <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={isSwitchEnabled ? "#f5dd4b" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isSwitchEnabled}
-            disabled={!isBiometricsAvailable}
-            />
+        <View style={{flex: 1}}>
+            <Text style={styles.heading}>Secure your app</Text>
+            <Text style={styles.text}>{subtitleText}</Text>
         </View>
-
-        <View style={{marginTop: 20}}>
+        <View style={{flex: 1}}>
+            <TextInput 
+            value={textInputValue} 
+            onChangeText={setTextInputValue} 
+            onSubmitEditing={onButtonPress} 
+            placeholder='Pin Code' 
+            keyboardType="numeric" 
+            style={styles.input} 
+            secureTextEntry={true} 
+            maxLength={6}
+            autoFocus = {false}
+            />
+            <View style={{...styles.switchWithLabel, opacity: isBiometricsAvailable? 1 : 0.3}}>
+                <Text style={{flex:4 }}>
+                    Sign-in automatically with fingerprint or face scan (You can always change it in settings)
+                </Text>
+                <Switch
+                style={{flex: 1}}
+                trackColor={{ false: '#8A8A8A', true: '#0007F9' }}
+                thumbColor={'#FFFFFF'}
+                ios_backgroundColor='#D2D2D2'
+                onValueChange={toggleSwitch}
+                value={isSwitchEnabled}
+                disabled={!isBiometricsAvailable}
+                />
+            </View>
+        </View>
+        <View style={{marginTop: 20, flex: 2, justifyContent:'flex-end'}}>
             <TouchableHighlight  onPress={onButtonPress}>
                 <View style={styles.buttonStyle}>
-                    <Text style={{fontSize: 20}}>{buttonText}</Text>
+                    <Text style={styles.buttonText}>{buttonText}</Text>
                 </View>
             </TouchableHighlight>
         </View>
@@ -177,8 +178,7 @@ const styles = StyleSheet.create({
      
     },
     container: {
-        justifyContent: 'flex-start',
-        
+        backgroundColor: '#ffffff',
         flex: 1,
         padding: 10
  
@@ -186,15 +186,23 @@ const styles = StyleSheet.create({
     buttonStyle: {
         alignItems: "center",
         justifyContent: 'center',
-        backgroundColor: "#DDDDDD",
+        borderRadius: 4,
+        backgroundColor: "#0007F9",
         padding: 15,
-     
+    },
+    buttonText:{
+        fontSize: 20,
+        color: '#ffffff'
     },
     input: {
         height: 50,
         margin: 12,
         borderWidth: 1,
+        borderRadius: 4,
         padding: 10,
         textAlign: 'center'
+      },
+      switchWithLabel: {
+        flexDirection:'row-reverse'
       },
   });

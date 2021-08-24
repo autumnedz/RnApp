@@ -96,14 +96,14 @@ export const LoginPage = ({navigation}: Prop) => {
                 <View style={{marginTop: 20}}>
                     <TouchableHighlight  onPress={submitPincode}>
                         <View style={styles.buttonStyle}>
-                            <Text style={{fontSize: 20}}>Login</Text>
+                            <Text style={styles.buttonText}>Login</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
                 <View style={{marginTop: 20}}>
                     <TouchableHighlight  onPress={onResetAuthentification}>
                         <View style={styles.buttonStyle}>
-                            <Text style={{fontSize: 20}}>reset authentification</Text>
+                            <Text style={styles.buttonText}>reset authentification</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -115,30 +115,42 @@ export const LoginPage = ({navigation}: Prop) => {
 
 const styles = StyleSheet.create({
     heading:{
-        flex: 1,
-     fontWeight: 'bold',
-     fontSize: 50,
+        marginHorizontal: 10,
+        fontWeight: 'bold',
+        fontSize: 30,
+     
+    },    
+    text:{
+        marginHorizontal: 10,
+        fontSize: 20,
      
     },
     container: {
-     justifyContent: 'flex-start',
-     alignItems: 'center',
-     flex: 1,
-     padding: 10
+        backgroundColor: '#ffffff',
+        flex: 1,
+        padding: 10
  
     },
     buttonStyle: {
-     alignItems: "center",
-     justifyContent: 'center',
-     backgroundColor: "#DDDDDD",
-     padding: 15,
-     
+        alignItems: "center",
+        justifyContent: 'center',
+        borderRadius: 4,
+        backgroundColor: "#0007F9",
+        padding: 15,
+    },
+    buttonText:{
+        fontSize: 20,
+        color: '#ffffff'
     },
     input: {
         height: 50,
         margin: 12,
-        borderWidth: 0,
+        borderWidth: 1,
+        borderRadius: 4,
         padding: 10,
         textAlign: 'center'
+      },
+      switchWithLabel: {
+        flexDirection:'row-reverse'
       },
   });

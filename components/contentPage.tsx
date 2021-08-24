@@ -20,7 +20,7 @@ import { resetAuth } from '../store/actions/AuthActions';
 
 export const ContentPage = () => {
     const dispatch = useDispatch()
-    
+
     const onResetAuthentification = async () => {
         await Keychain.resetGenericPassword({service:'biometric'});
         await Keychain.resetGenericPassword({service:'pincode'});
@@ -37,7 +37,7 @@ export const ContentPage = () => {
             <View style={{ marginTop: 20 }}>
                 <TouchableHighlight onPress={onResetAuthentification}>
                     <View style={styles.buttonStyle}>
-                        <Text style={{ fontSize: 20 }}>reset authentification</Text>
+                        <Text style={styles.buttonText}>reset authentification</Text>
                     </View>
                 </TouchableHighlight>
             </View>
@@ -52,16 +52,22 @@ const styles = StyleSheet.create({
      
     },
     container: {
-     justifyContent: 'center',
-     alignItems: "center",
-     flex: 1,
-     padding: 10
+        backgroundColor: '#ffffff',
+        flex: 1,
+        padding: 10,
+        justifyContent:'center',
+        alignItems:'center'
  
     },
     buttonStyle: {
-     alignItems: "center",
-     backgroundColor: "#DDDDDD",
-     padding: 15,
-     
-    }
+        alignItems: "center",
+        justifyContent: 'center',
+        borderRadius: 4,
+        backgroundColor: "#0007F9",
+        padding: 15,
+    },
+    buttonText:{
+        fontSize: 20,
+        color: '#ffffff'
+    },
   });
