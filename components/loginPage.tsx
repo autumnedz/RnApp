@@ -6,6 +6,7 @@ import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
 import { resetAuth, signIn } from '../store/actions/AuthActions';
+import { DismissKeyboard } from './dismissKeyboard';
 
 interface Prop{
     navigation: any // this is not nice but cba
@@ -73,43 +74,42 @@ export const LoginPage = ({navigation}: Prop) => {
         dispatch(resetAuth())
 
     }
-    // // This prevents the user to return back to the setupAuth or splashScreen, but its not nice because the return button is still available on the screen, just doesnt react
-    // navigation.addListener('beforeRemove', (e: any) => {
-    //     e.preventDefault(); // Prevent default behavior of leaving the screen
-    // })
 
     return(
-        <SafeAreaView style={styles.container}>
-            <Text style = {styles.heading}>Welcome</Text>
-            <View style={{flex: 3, justifyContent:'center'}}>
-                <TextInput 
-                value={enteredPinCode} 
-                onChangeText={onLoginTextChange} 
-                onSubmitEditing={submitPincode} 
-                placeholder='Enter Pin' 
-                keyboardType="numeric" 
-                style={styles.input} 
-                secureTextEntry={true} 
-                maxLength={6}
-                autoFocus = {true}
-                />
-                <View style={{marginTop: 20}}>
-                    <TouchableHighlight  onPress={submitPincode}>
-                        <View style={styles.buttonStyle}>
-                            <Text style={styles.buttonText}>Login</Text>
-                        </View>
-                    </TouchableHighlight>
+        <DismissKeyboard>
+            <SafeAreaView style={styles.container}>
+                <Text style = {styles.heading}>Welcome</Text>
+                <View style={{flex: 3, justifyContent:'center'}}>
+                    <TextInput 
+                    value={enteredPinCode} 
+                    onChangeText={onLoginTextChange} 
+                    onSubmitEditing={submitPincode} 
+                    placeholder='Enter Pin' 
+                    keyboardType='number-pad' 
+                    style={styles.input} 
+                    secureTextEntry={true} 
+                    maxLength={6}
+                    autoFocus = {true}
+                    />
+                    <View style={{marginTop: 20}}>
+                        <TouchableHighlight  onPress={submitPincode}>
+                            <View style={styles.buttonStyle}>
+                                <Text style={styles.buttonText}>Login</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
+                    <View style={{marginTop: 20}}>
+                        <TouchableHighlight  onPress={onResetAuthentification}>
+                            <View style={styles.buttonStyle}>
+                                <Text style={styles.buttonText}>reset authentification</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
                 </View>
-                <View style={{marginTop: 20}}>
-                    <TouchableHighlight  onPress={onResetAuthentification}>
-                        <View style={styles.buttonStyle}>
-                            <Text style={styles.buttonText}>reset authentification</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
-            </View>
 
-        </SafeAreaView>
+            </SafeAreaView>
+        </DismissKeyboard>
+
     )
 }
 

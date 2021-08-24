@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch, Button} from 'react-native';
-import { Overlay } from 'react-native-elements';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch} from 'react-native';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/configureStore';
@@ -11,6 +10,7 @@ import * as Keychain from 'react-native-keychain';
 import { setAuth } from '../store/actions/AuthActions';
 import { Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { DismissKeyboard } from './dismissKeyboard'
 
 
 
@@ -122,46 +122,47 @@ export const PinSetupPage = ({navigation}: Prop) => {
 
 
   return (
-    <SafeAreaView style={styles.container}>
-        <View style={{flex: 1}}>
-            <Text style={styles.heading}>Secure your app</Text>
-            <Text style={styles.text}>{subtitleText}</Text>
-        </View>
-        <View style={{flex: 1}}>
-            <TextInput 
-            value={textInputValue} 
-            onChangeText={setTextInputValue} 
-            onSubmitEditing={onButtonPress} 
-            placeholder='Pin Code' 
-            keyboardType="numeric" 
-            style={styles.input} 
-            secureTextEntry={true} 
-            maxLength={6}
-            autoFocus = {false}
-            />
-            <View style={{...styles.switchWithLabel, opacity: isBiometricsAvailable? 1 : 0.3}}>
-                <Text style={{flex:4 }}>
-                    Sign-in automatically with fingerprint or face scan (You can always change it in settings)
-                </Text>
-                <Switch
-                style={{flex: 1}}
-                trackColor={{ false: '#8A8A8A', true: '#0007F9' }}
-                thumbColor={'#FFFFFF'}
-                ios_backgroundColor='#D2D2D2'
-                onValueChange={toggleSwitch}
-                value={isSwitchEnabled}
-                disabled={!isBiometricsAvailable}
-                />
+    <DismissKeyboard>
+        <SafeAreaView style={styles.container}>
+            <View style={{flex: 1}}>
+                <Text style={styles.heading}>Secure your app</Text>
+                <Text style={styles.text}>{subtitleText}</Text>
             </View>
-        </View>
-        <View style={{marginTop: 20, flex: 2, justifyContent:'flex-end'}}>
-            <TouchableHighlight  onPress={onButtonPress}>
-                <View style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>{buttonText}</Text>
+            <View style={{flex: 1}}>
+                <TextInput 
+                value={textInputValue} 
+                onChangeText={setTextInputValue} 
+                onSubmitEditing={onButtonPress} 
+                placeholder='Pin Code' 
+                keyboardType='number-pad' 
+                style={styles.input} 
+                secureTextEntry={true} 
+                maxLength={6}
+                autoFocus = {false}
+                />
+                <View style={{...styles.switchWithLabel, opacity: isBiometricsAvailable? 1 : 0.3}}>
+                    <Text style={{flex:4 }}>
+                        Sign-in automatically with fingerprint or face scan (You can always change it in settings)
+                    </Text>
+                    <Switch
+                    style={{flex: 1}}
+                    trackColor={{ false: '#8A8A8A', true: '#0007F9' }}
+                    thumbColor={'#FFFFFF'}
+                    onValueChange={toggleSwitch}
+                    value={isSwitchEnabled}
+                    disabled={!isBiometricsAvailable}
+                    />
                 </View>
-            </TouchableHighlight>
-        </View>
-    </SafeAreaView>
+            </View>
+            <View style={{marginTop: 20, flex: 2, justifyContent:'flex-end'}}>
+                <TouchableHighlight  onPress={onButtonPress}>
+                    <View style={styles.buttonStyle}>
+                        <Text style={styles.buttonText}>{buttonText}</Text>
+                    </View>
+                </TouchableHighlight>
+            </View>
+        </SafeAreaView>
+    </DismissKeyboard>
   )
 }
 
