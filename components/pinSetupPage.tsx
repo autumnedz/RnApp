@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/configureStore';
 import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
-import { setAuth } from '../store/actions/AuthActions';
+import { setAuth, signIn } from '../store/actions/AuthActions';
 import { Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { DismissKeyboard } from './dismissKeyboard'
@@ -109,7 +109,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
             }
 
             dispatch(
-                setAuth()
+                signIn(newPinValue)
             )
             
             setNewPinValue('')
