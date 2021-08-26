@@ -7,6 +7,7 @@ import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
 import { resetAuth, signIn } from '../store/actions/AuthActions';
 import { DismissKeyboard } from './dismissKeyboard';
+import { CodeInput } from './codeInput';
 
 interface Prop{
     navigation: any // this is not nice but cba
@@ -55,7 +56,7 @@ export const LoginPage = ({navigation}: Prop) => {
                 signIn(credentials.password)
             )
         }else{
-            Alert.alert( 
+            Alert.alert(  //to be replaced with a regular alert message in the page instead of a popup
                 'Incorrect PIN',
                 '',
                 [
@@ -80,7 +81,12 @@ export const LoginPage = ({navigation}: Prop) => {
             <SafeAreaView style={styles.container}>
                 <Text style = {styles.heading}>Welcome</Text>
                 <View style={{flex: 3, justifyContent:'center'}}>
-                    <TextInput 
+                    <CodeInput
+                    codeLength={6}
+                    code={enteredPinCode}
+                    setCode={onLoginTextChange}
+                    />
+                    {/* <TextInput 
                     value={enteredPinCode} 
                     onChangeText={onLoginTextChange} 
                     onSubmitEditing={submitPincode} 
@@ -90,7 +96,7 @@ export const LoginPage = ({navigation}: Prop) => {
                     secureTextEntry={true} 
                     maxLength={6}
                     autoFocus = {true}
-                    />
+                    /> */}
                     <View style={{marginTop: 20}}>
                         <TouchableOpacity  onPress={submitPincode}>
                             <View style={styles.buttonStyle}>

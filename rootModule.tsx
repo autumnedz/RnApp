@@ -34,7 +34,7 @@ export const RootModule = () => {
                   </>
                   ) : (
                     <>
-                    <Stack.Screen name={ScreenName.PinSetup} component={PinSetupPage} />
+                      <Stack.Screen name={ScreenName.PinSetup} component={PinSetupPage} />
                     </>
                   )
                 }
