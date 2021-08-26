@@ -11,12 +11,13 @@ import { setAuth, signIn } from '../store/actions/AuthActions';
 import { Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { DismissKeyboard } from './dismissKeyboard'
+import { CodeInput } from './codeInput';
 
 
 
 
 interface Prop{
-    navigation: any // this is not nice but cba 
+    navigation: any 
 }
 
 export const PinSetupPage = ({navigation}: Prop) => {
@@ -27,6 +28,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
     const [isPinConfirmed, setIsPinConfirmed] = useState(false)
     const [isBiometricsAvailable, setIsBiometricsAvailable] = useState(true)
     const [isSwitchEnabled, setIsSwitchEnabled] = useState(true)
+    const [pinsDontMatch, setPinsDontMatch] = useState(false)
 
     const RequiredPinLength = 6
 
@@ -130,7 +132,14 @@ export const PinSetupPage = ({navigation}: Prop) => {
                 <Text style={styles.text}>{subtitleText}</Text>
             </View>
             <View style={{flex: 1}}>
-                <TextInput 
+                <CodeInput
+                 codeLength={RequiredPinLength}
+                 code={textInputValue}
+                 setCode={setTextInputValue}
+                 disabled={true}
+                />
+
+                {/* <TextInput 
                 autoFocus = {true}
                 value={textInputValue} 
                 onChangeText={setTextInputValue} 
@@ -140,7 +149,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
                 style={styles.input} 
                 secureTextEntry={true} 
                 maxLength={6}
-                />
+                /> */}
                 <View style={{...styles.switchWithLabel, opacity: isBiometricsAvailable? 1 : 0.3}}>
                     <Text style={{flex:4 }}>
                         Sign-in automatically with fingerprint or face scan (You can always change it in settings)
@@ -207,6 +216,6 @@ const styles = StyleSheet.create({
         textAlign: 'center'
       },
       switchWithLabel: {
-        flexDirection:'row-reverse'
+        flexDirection:'row-reverse',
       },
   });
