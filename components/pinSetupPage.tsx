@@ -135,7 +135,6 @@ export const PinSetupPage = ({navigation}: Prop) => {
                  codeLength={RequiredPinLength}
                  code={textInputValue}
                  setCode={setTextInputValue}
-                 disabled={true}
                 />
 
                 {/* <TextInput 
