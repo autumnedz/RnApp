@@ -56,7 +56,7 @@ export const LoginPage = ({navigation}: Prop) => {
                 signIn(credentials.password)
             )
         }else{
-            Alert.alert( 
+            Alert.alert(  //to be replaced with a regular alert message in the page instead of a popup
                 'Incorrect PIN',
                 '',
                 [

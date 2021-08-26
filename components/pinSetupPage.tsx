@@ -55,7 +55,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
     const onButtonPress = () => {
         if(textInputValue.length !== RequiredPinLength){
             
-            Alert.alert(
+            Alert.alert( //instead of this the button should be disabled untill the whole pin is typed
                 'PIN too short!',
                 `Your pin must be ${RequiredPinLength} digits`,
                 [
@@ -76,8 +76,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
                     setIsPinConfirmed(true)
     
                 }else{ 
-                    // could maybe go all the way back to the beginning in case first pin value was incorrect
-                    Alert.alert( 
+                    Alert.alert( //to be replaced with a regular alert message in the page instead of a popup
                         'PINs do not match!',
                         '',
                         [
