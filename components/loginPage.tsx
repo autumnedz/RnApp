@@ -6,7 +6,6 @@ import { ScreenName } from '../rootModule';
 import * as Keychain from 'react-native-keychain';
 import { useDispatch } from 'react-redux';
 import { resetAuth, signIn } from '../store/actions/AuthActions';
-import { DismissKeyboard } from './dismissKeyboard';
 import { CodeInput } from './codeInput';
 
 interface Prop{
@@ -77,7 +76,6 @@ export const LoginPage = ({navigation}: Prop) => {
     }
 
     return(
-        <DismissKeyboard>
             <SafeAreaView style={styles.container}>
                 <Text style = {styles.heading}>Welcome</Text>
                 <View style={{flex: 3, justifyContent:'center'}}>
@@ -114,7 +112,6 @@ export const LoginPage = ({navigation}: Prop) => {
                 </View>
 
             </SafeAreaView>
-        </DismissKeyboard>
 
     )
 }

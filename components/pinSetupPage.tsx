@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, Switch, TouchableOpacity} from 'react-native';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/configureStore';
@@ -10,7 +10,6 @@ import * as Keychain from 'react-native-keychain';
 import { setAuth, signIn } from '../store/actions/AuthActions';
 import { Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { DismissKeyboard } from './dismissKeyboard'
 import { CodeInput } from './codeInput';
 
 
@@ -123,7 +122,7 @@ export const PinSetupPage = ({navigation}: Prop) => {
 
 
   return (
-    <DismissKeyboard>
+
         <SafeAreaView style={styles.container}>
             <View style={{flex: 1}}>
                 <Text style={styles.heading}>Secure your app</Text>
@@ -164,14 +163,13 @@ export const PinSetupPage = ({navigation}: Prop) => {
                 </View>
             </View>
             <View style={{marginTop: 20, flex: 2, justifyContent:'flex-end'}}>
-                <TouchableHighlight  onPress={onButtonPress}>
+                <TouchableOpacity  onPress={onButtonPress}>
                     <View style={styles.buttonStyle}>
                         <Text style={styles.buttonText}>{buttonText}</Text>
                     </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
-    </DismissKeyboard>
   )
 }
 
